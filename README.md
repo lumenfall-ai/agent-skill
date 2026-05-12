@@ -41,9 +41,28 @@ Stop there. You'll know if this is for you.
 
 ## Install
 
-### Claude Code
+### Claude Code — one-liner
 
-Paste these three commands inside Claude Code:
+macOS, Linux, WSL:
+
+```bash
+curl -fsSL https://lumenfall.ai/install | sh
+```
+
+Windows (PowerShell 7+):
+
+```powershell
+irm https://lumenfall.ai/install.ps1 | iex
+```
+
+Registers the marketplace, enables the plugin, backs up your existing
+`~/.claude/settings.json` first, and tells you exactly what it did. Inspect
+before running with `curl -fsSL https://lumenfall.ai/install | less` if
+that's your style.
+
+### Claude Code — manual
+
+If you'd rather not run a shell script, paste these inside Claude Code:
 
 ```
 /plugin marketplace add lumenfall-ai/agent-skill
