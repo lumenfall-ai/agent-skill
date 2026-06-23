@@ -1,0 +1,46 @@
+{
+  "skill_name": "lumenfall",
+  "evals": [
+    {
+      "id": 0,
+      "name": "fal-migration",
+      "prompt": "I'm currently using fal-client in my Python app to generate images with FLUX. I want to switch to Lumenfall so I get a unified API and provider failover. Here's my current code:\n\n```python\nimport fal_client\n\ndef gen_image(prompt: str) -> str:\n    result = fal_client.subscribe(\n        'fal-ai/flux/dev',\n        arguments={'prompt': prompt, 'image_size': 'landscape_16_9'}\n    )\n    return result['images'][0]['url']\n```\n\nShow me how to migrate this to Lumenfall. My API key starts with `lmnfl_`. I'd like to keep the same function signature if possible. Also briefly tell me what changes vs staying on fal-client (cost, rate limits, error handling).",
+      "expected_output": "Working Python that uses the OpenAI SDK with base_url=https://api.lumenfall.ai/openai/v1 and the correct image-generation call. Should mention pass-through pricing (no markup), no rate limits / auto-failover, and the correct Lumenfall slug for FLUX dev (not 'fal-ai/flux/dev'). Should NOT use fal-client.",
+      "assertions": [
+        {"text": "Uses OpenAI SDK (from openai import OpenAI) rather than fal_client"},
+        {"text": "Uses base_url='https://api.lumenfall.ai/openai/v1' (the OpenAI-compatible URL, not bare /v1)"},
+        {"text": "Calls client.images.generate(...) with model and prompt arguments"},
+        {"text": "Uses a Lumenfall model slug (e.g., 'flux-1-dev' or similar) — NOT a fal-prefixed slug like 'fal-ai/flux/dev'"},
+        {"text": "Mentions automatic provider failover or 'no rate limits' as a Lumenfall benefit"},
+        {"text": "Mentions pass-through pricing / no markup"}
+      ]
+    },
+    {
+      "id": 1,
+      "name": "debug-providers-exhausted",
+      "prompt": "Help me debug this. My image generation requests started returning `ALL_PROVIDERS_EXHAUSTED` errors today. I'm calling `POST https://api.lumenfall.ai/v1/images/generations` with model `flux-pro/v1.1`. The request worked yesterday. What are the most likely causes and how do I diagnose this? Walk me through the steps.",
+      "expected_output": "Should immediately spot two issues: (1) wrong base path — should be /openai/v1/images/generations, not /v1/images/generations; (2) wrong slug format — 'flux-pro/v1.1' looks like a fal slug, not a Lumenfall slug. Should mention checking GET /openai/v1/models for valid slugs, and suggest the request history API (/v1/requests) for inspecting recent failures. Should mention the dashboard request drawer (lumenfall.ai/app/requests?open=...) for detailed inspection.",
+      "assertions": [
+        {"text": "Identifies the base URL is wrong: /v1/images/generations should be /openai/v1/images/generations"},
+        {"text": "Identifies that the model slug 'flux-pro/v1.1' is fal-style and not a valid Lumenfall slug, OR suggests verifying via GET /openai/v1/models"},
+        {"text": "Suggests checking GET /v1/requests (request history API) to inspect the failures"},
+        {"text": "Mentions the dashboard request inspection URL pattern (lumenfall.ai/app/requests?open=...)"},
+        {"text": "Mentions checking error_message in the request history for the underlying provider errors"}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "nextjs-from-scratch",
+      "prompt": "I'm building a Next.js 14 app with the App Router and want to add image generation. The user types a prompt in a form, hits submit, and sees the generated image. I have a Lumenfall API key in my env (`LUMENFALL_API_KEY`). Show me a complete working setup: the API route handler, a client component for the form, and any config needed. Use TypeScript.",
+      "expected_output": "Should produce: (1) an App Router route handler at app/api/generate/route.ts that calls Lumenfall, (2) a client component with a form, (3) uses the OpenAI SDK with base_url=https://api.lumenfall.ai/openai/v1, (4) reads the key from process.env.LUMENFALL_API_KEY, (5) returns the image URL or base64, (6) ideally mentions that media URLs from media.lumenfall.ai are transient by default (~1 hour) unless the org has configured a longer retention tier — or suggests b64_json / re-hosting for persistence.",
+      "assertions": [
+        {"text": "Creates an App Router route handler (app/api/.../route.ts), not a pages-router API"},
+        {"text": "Uses OpenAI SDK with base_url='https://api.lumenfall.ai/openai/v1'"},
+        {"text": "Reads the API key from process.env.LUMENFALL_API_KEY"},
+        {"text": "Includes a client component with 'use client' directive and a form"},
+        {"text": "Calls images.generate() with a valid Lumenfall model slug"},
+        {"text": "Mentions that Lumenfall-hosted media URLs are transient by default (~1 hour, configurable per-org), OR recommends b64_json / re-hosting for persistence"}
+      ]
+    }
+  ]
+}

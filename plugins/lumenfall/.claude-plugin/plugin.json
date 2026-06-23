@@ -1,0 +1,12 @@
+{
+  "name": "agent-skill",
+  "description": "Lumenfall AI media API: integration, debugging, migration, model choice, cost",
+  "version": "1.2.2",
+  "author": {
+    "name": "Lumenfall",
+    "email": "support@lumenfall.ai"
+  },
+  "homepage": "https://lumenfall.ai",
+  "repository": "https://github.com/lumenfall-ai/agent-skill",
+  "license": "MIT"
+}

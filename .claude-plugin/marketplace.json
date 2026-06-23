@@ -1,0 +1,41 @@
+{
+  "name": "lumenfall",
+  "description": "Lumenfall plugin marketplace",
+  "owner": {
+    "name": "Lumenfall",
+    "email": "support@lumenfall.ai"
+  },
+  "plugins": [
+    {
+      "name": "agent-skill",
+      "source": "./plugins/lumenfall",
+      "description": "Lumenfall AI media API: integration, debugging, migration, model choice, cost. Works in Claude Code, Codex, Copilot CLI, Gemini CLI, and any agent that reads the Skills format.",
+      "version": "1.2.2",
+      "author": {
+        "name": "Lumenfall",
+        "email": "support@lumenfall.ai"
+      },
+      "homepage": "https://lumenfall.ai",
+      "repository": "https://github.com/lumenfall-ai/agent-skill",
+      "license": "MIT",
+      "category": "ai-media",
+      "keywords": [
+        "lumenfall",
+        "ai-media",
+        "image-generation",
+        "video-generation",
+        "openai-compatible",
+        "fal",
+        "replicate",
+        "openrouter",
+        "imagerouter",
+        "flux",
+        "gpt-image",
+        "gemini-image",
+        "seedream",
+        "kling",
+        "wan"
+      ]
+    }
+  ]
+}
